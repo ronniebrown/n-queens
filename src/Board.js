@@ -93,8 +93,9 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      var length = this.get('n');
       var rows = this.rows();
-      for (var i = 0; i < rows.length; i++) {
+      for (var i = 0; i < length; i++) {
         if (this.hasRowConflictAt(rows[i])) {
           return true;
         }
@@ -111,7 +112,7 @@
     hasColConflictAt: function(colIndex) {
       var counter = 0;
       var rows = this.rows();
-
+      // console.log(rows);
       for (var i = 0; i < rows.length; i++) {
         if (rows[i][colIndex] === 1) {
           counter += 1;
@@ -126,8 +127,9 @@
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var length = this.get('n');
       var rows = this.rows();
-
+      // console.log(rows);
       for (var i = 0; i < rows.length; i++) {
         if (this.hasColConflictAt(i)) {
           return true;
@@ -143,24 +145,34 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      var length = this.get('n');
       var rows = this.rows();
-      console.log(rows);
       var counter = 0;
       var mD = majorDiagonalColumnIndexAtFirstRow;
       var index = 0;
-    
+      
       for (var i = mD; i < rows.length; i++) {      
-        console.log(rows[i][index]);    
-        if (rows[i][index] === 1) {
+        console.log(rows[i][index]);
+        if (rows[index][i] === 1) {
           counter += 1;
-          console.log(counter);       
-          if (counter > 1) {  
-            console.log("HHHHHHEWHEHWERHEWRH");
+          if (counter > 1) { 
             return true;
           }
         }
         index += 1;
       }
+      index = 0;
+      counter = 0;
+      for (var x = mD; x >= 0; x--) {
+        if (rows[x][index] === 1) {
+          counter += 1;
+          if (counter > 1) {
+            return true;
+          }
+        } 
+        index += 1;
+      }
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
@@ -172,6 +184,7 @@
           return true;
         }
       }
+      console.log("END");
       return false; 
     },
 
